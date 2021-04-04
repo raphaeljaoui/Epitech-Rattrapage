@@ -17,13 +17,12 @@ class Favoris extends React.Component {
     }
 
     _photoUser= async() => {   
-        await Axios.get(`https://api.imgur.com/3/account/${this.props.currentProfil.data.url}/favorites`, {
+        await Axios.get(`https://api.imgur.com/3/account/${this.props.currentProfil.data.username}/favorites`, {
             headers: { 
             'Authorization': `Client-ID ${IMGUR_CLIENT_ID}`, 
             },
             }).then((response) => {
                 this.setState({accountFavData: response.data});
-                // console.log(response.data);
             }).catch((error) => {
                 console.log(error);
         });
@@ -38,7 +37,6 @@ class Favoris extends React.Component {
     }
 
     render(){
-                console.log(this.props.currentProfil.data.url);
             return(
                 <SafeAreaView style={styles.loginPage}>
                     <View style={{flexDirection: "row", alignItems:"center"}}>
@@ -70,7 +68,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (store) => {
     return {
-        currentProfil: store.profil.data
+        currentProfil: store.profil
     }
 }
 export default connect(mapStateToProps, undefined)(Favoris)

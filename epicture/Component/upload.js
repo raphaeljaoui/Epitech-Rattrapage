@@ -7,9 +7,10 @@ import ImgToBase64 from 'react-native-image-base64';
 import Axios from 'axios'
 import FormData from 'form-data'
 import * as File from "expo-file-system"
+import {connect} from 'react-redux'
 
 const IMGUR_CLIENT_ID = "b15555533adcf0c"
-export default class Upload extends React.Component {
+class Upload extends React.Component {
     constructor(props){
         super(props),
         this.state = {
@@ -60,7 +61,7 @@ export default class Upload extends React.Component {
                         method: 'POST',
                         body: formData,
                         headers: {
-                            "Authorization": 'Bearer ' + "609749701f06b5e6434dddfb441cabbb902c488a",
+                            "Authorization": 'Bearer ' + this.props.currentProfil.data.token,
 
                         //   Authorization: `Client-ID ${IMGUR_CLIENT_ID}`,
                           Accept: 'application/json'
@@ -83,7 +84,6 @@ export default class Upload extends React.Component {
         // .then(base64String => doSomethingWith(base64String))
         // .catch(err => doSomethingWith(err));
 
-        // console.log(base);
         this._uploadImage()
         
     }
@@ -129,3 +129,11 @@ const styles = StyleSheet.create({
       fontWeight:"600"
   }
 });
+
+const mapStateToProps = (store) => {
+  return {
+      currentProfil: store.profil
+  }
+}
+
+export default connect(mapStateToProps, undefined)(Upload)

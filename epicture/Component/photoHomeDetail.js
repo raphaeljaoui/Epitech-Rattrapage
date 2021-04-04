@@ -2,10 +2,11 @@ import Axios from 'axios';
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Image, SafeAreaView} from 'react-native';
 import FormData from 'form-data'
+import {connect} from 'react-redux'
 
 const IMGUR_CLIENT_ID = "b15555533adcf0c"
 
-export default class PhotoHomeDetail extends React.Component {
+class PhotoHomeDetail extends React.Component {
     _sendCommentaire = () => {
         const formData = new FormData();
       
@@ -30,13 +31,12 @@ export default class PhotoHomeDetail extends React.Component {
           var response =await fetch('https://api.imgur.com/3/gallery/hyjhL2H/vote/' + vote, {
             method: 'POST',
             headers: {
-              "Authorization": 'Bearer ' + "b5a7b2bfc6e6ca1705dee5add06896660dc4957e",
+              "Authorization": 'Bearer ' + this.props.currentProfil.data.token,
               "Accept": 'application/json'
             },
             body:formData
           });
           let json = await response.json();
-            console.log(json);
           return (json.success)
         } catch {
           return false;
@@ -46,26 +46,25 @@ export default class PhotoHomeDetail extends React.Component {
       _favoris = async() => {
         const formData = new FormData();
         try{
-          let response = await fetch('https://api.imgur.com/3/image/K3Bt6jm/favorite', {
+          var response = await fetch('https://api.imgur.com/3/image/K3Bt6jm/favorite', {
             method:'POST',
             headers: {
-              "Authorization": 'Bearer ' + "b5a7b2bfc6e6ca1705dee5add06896660dc4957e",
+              "Authorization": 'Bearer ' + this.props.currentProfil.data.token,
               'Accept': 'application/json',
             //   'Content-Type': 'application/json'
             //   "Accept": 'application/json'
             },
             // body:formData
-          }).then(res=>{
-               return(res.json());
-          }).then(res=>{
-              console.log(res);
           })
+
+          // let json = await response.text();
+          // console.log(json);
+          // return (json.success)
         }
         catch(error) {
             console.error(error);
           }
         //   let json = await response.json();
-        //     console.log(json);
         //   return (json.success)
       }
     componentDidMount = () =>{
@@ -103,3 +102,12 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
   },
 });
+
+
+const mapStateToProps = (store) => {
+  return {
+      currentProfil: store.profil
+  }
+}
+
+export default connect(mapStateToProps, undefined)(PhotoHomeDetail)

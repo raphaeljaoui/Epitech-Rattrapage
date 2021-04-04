@@ -4,7 +4,6 @@ import { StyleSheet, Text, View, Button, TextInput, Image, FlatList} from 'react
 export default class PhotoUser extends React.Component {
     render(){
         const user= this.props.user
-        // console.log(user);
             return(
                 <View style={styles.loginPage}>
                     <View style={{ alignItems: 'center',justifyContent: 'center'}}>

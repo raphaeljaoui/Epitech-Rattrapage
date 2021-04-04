@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Button, TextInput, Image, FlatList, SafeAreaVie
 import PhotoUser from './photoUser'
 import Axios from 'axios'
 import PhotoSearch from './photoHome'
+import {connect} from 'react-redux'
 
 const data = [
     {
@@ -33,7 +34,7 @@ const data = [
 
 const IMGUR_CLIENT_ID = "b15555533adcf0c"
 
-export default class Home extends React.Component {
+class Home extends React.Component {
     constructor(props){
         super(props),
         this.state = {
@@ -54,7 +55,7 @@ export default class Home extends React.Component {
             });
     }  
 
-    _displayDetailFavoris = (fav) => {
+    _displayDetailFavoris = (fav, token) => {
         this.props.navigation.navigate("PhotoDetail", {fav})
     }
 
@@ -63,6 +64,7 @@ export default class Home extends React.Component {
         } 
 
     render(){
+        console.log(this.props.currentProfil.data);
             return(
                 <SafeAreaView style={styles.loginPage}>
                      <View style={{flexDirection: "row", alignItems:"center"}}>
@@ -73,7 +75,7 @@ export default class Home extends React.Component {
                         <FlatList 
                             data={this.state.searchImage.data}
                             KeyExtractor={(item) => item.id.toString()}
-                            renderItem={({item}) => <PhotoSearch fav={item} detail={this._displayDetailFavoris}/>}
+                            renderItem={({item}) => <PhotoSearch fav={item} detail={this._displayDetailFavoris} token={this.props.currentProfil.data}/>}
                             numColumns={3}
                             />
                     </View>
@@ -90,3 +92,11 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
   },
 });
+
+const mapStateToProps = (store) => {
+    return {
+        currentProfil: store.profil
+    }
+}
+
+export default connect(mapStateToProps, undefined)(Home)

@@ -4,7 +4,6 @@ import { StyleSheet, Text, View, Button, TextInput, Image, TouchableOpacity} fro
 export default class PhotoSearch extends React.Component {
     render(){
       const fav = this.props.fav
-    //    console.log(fav.link);
             return(
                 <TouchableOpacity style={styles.loginPage}>
                     <View style={{ alignItems: 'center',justifyContent: 'center'}}>

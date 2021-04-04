@@ -34,7 +34,10 @@ class Login extends React.Component {
             token: result['params']['access_token'],
             username: result['params']['account_username']
           };
-          console.log(myObj);
+          this.props.nav(false)
+          this.setState({accountData: myObj});
+          const action={type: "GET_PROFIL", value: myObj}
+          this.props.dispatch(action)
         //   AsyncStorage.setItem("LOG_INFO", JSON.stringify(myObj));
         // } else {
           // var obj = JSON.parse(objString);
@@ -51,7 +54,6 @@ class Login extends React.Component {
             headers: { 
             'Authorization': `Client-ID ${IMGUR_CLIENT_ID}`, 
             },}).then((response) => {
-                // console.log(response.data);
                 this.setState({accountData: response.data});
                 this.props.nav(false)
                 const action={type: "GET_PROFIL", value: response.data}
@@ -64,13 +66,13 @@ class Login extends React.Component {
     render(){
         if (this.state.login ==0){
             return (
-                <View style={{height: "80%", width:"100%", overflow:"hidden"}}>
-                <WebView
-                source = {{ uri: 'https://api.imgur.com/oauth2/authorize?client_id=b15555533adcf0c&response_type=token' }}      />
-                    <Button title="login" onPress={() => { this.setState({login:1})}}/>
+                <SafeAreaView style={{height: "80%", width:"100%", overflow:"hidden"}}>
+                {/* <WebView
+                source = {{ uri: 'https://api.imgur.com/oauth2/authorize?client_id=b15555533adcf0c&response_type=token' }}      /> */}
+                    {/* <Button title="login" onPress={() => { this.setState({login:1})}}/> */}
 
                     <Button title="LoginImgur" onPress={() => {this.loginImgur()}}/>
-                </View>
+                </SafeAreaView>
             );
             
         }

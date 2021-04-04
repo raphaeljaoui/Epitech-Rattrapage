@@ -15,6 +15,7 @@ class User extends React.Component {
             username: "rj012",
             textUser: "",
             accountImgData: [],
+            accountData:[],
             data:[]
         }
     }
@@ -22,10 +23,10 @@ class User extends React.Component {
 
 
     _photoUser= async() => {   
-        return  Axios.get(`https://api.imgur.com/3/account/${this.props.currentProfil.data.url}/images`, {
+        return  Axios.get(`https://api.imgur.com/3/account/${this.props.currentProfil.data.username}/images`, {
             method: 'GET',
             headers: { 
-            'Authorization': `Bearer 609749701f06b5e6434dddfb441cabbb902c488a`, 
+            'Authorization': `Bearer ${this.props.currentProfil.data.token}`, 
             },
             }).then((response) => {
                 
@@ -33,23 +34,27 @@ class User extends React.Component {
                     var tab = this.state.accountImgData
                     tab.push({"id": index, "image":res.link})
                     this.setState({accountImgData: tab});
-                    
-                    // console.log(res.link);
                 })
-            // console.log("data " + response.data)
             }).catch((error) => {
                 console.log(error);
             });
     }  
 
-    componentDidMount = () => {
+    componentDidMount = async() => {
+        await Axios.get(`https://api.imgur.com/3/account/${this.props.currentProfil.data.username}`, {
+            headers: { 
+            'Authorization': `Client-ID ${IMGUR_CLIENT_ID}`, 
+            },}).then((response) => {
+                this.setState({accountData: response.data});
+            }).catch((error) => {
+                console.log(error)
+        });
     this._photoUser()
     } 
 
     render(){
-        // console.log(this.props.currentProfil.data);
-        const profil = this.props.currentProfil.data
-        // console.log(data);
+        const accountData = this.state.accountData
+        if(accountData.data != undefined)       
             return(
                 <SafeAreaView style={styles.loginPage}>
                     <View style={{flexDirection: "row", alignItems:"center"}}>
@@ -57,9 +62,9 @@ class User extends React.Component {
                         <Text style={{fontSize:18, color:"green", marginLeft:10}}>Imgur</Text>
                     </View>
                     <View style={{marginTop:30, alignItems: 'center',justifyContent: 'center'}}>
-                        <Image source={{uri: profil.avatar}} style={{width:200, height:200,borderRadius:100}} />
-                        <Text style={{fontSize:20, fontWeight:"600"}}>{profil.url}</Text>
-                        <Text style={{fontSize:16}}>{profil.reputation_name}</Text>
+                        <Image source={{uri: accountData.data.avatar}} style={{width:200, height:200,borderRadius:100}} />
+                        <Text style={{fontSize:20, fontWeight:"600"}}>{accountData.data.url}</Text>
+                        <Text style={{fontSize:16}}>{accountData.data.reputation_name}</Text>
                     </View>
                     <View style={{marginTop:50, alignItems: 'center',}}>
                         <FlatList 
@@ -71,6 +76,12 @@ class User extends React.Component {
                     </View>
                 </SafeAreaView>
             )
+        else
+        return(
+            <View>
+                <Text>Chargement ...</Text>
+            </View>
+        )
     }
 }
 
@@ -85,7 +96,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (store) => {
     return {
-        currentProfil: store.profil.data
+        currentProfil: store.profil
     }
 }
 export default connect(mapStateToProps, undefined)(User)
