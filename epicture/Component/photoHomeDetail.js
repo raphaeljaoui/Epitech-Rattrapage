@@ -28,7 +28,7 @@ class PhotoHomeDetail extends React.Component {
         const formData = new FormData();
 
         try{
-          var response =await fetch('https://api.imgur.com/3/gallery/hyjhL2H/vote/' + vote, {
+          var response =await fetch(`https://api.imgur.com/3/gallery/${this.props.navigation.state.params.fav.id}/vote/` + vote, {
             method: 'POST',
             headers: {
               "Authorization": 'Bearer ' + this.props.currentProfil.data.token,
@@ -37,6 +37,7 @@ class PhotoHomeDetail extends React.Component {
             body:formData
           });
           let json = await response.json();
+          // console.log(this.props.navigation.state.params.fav.id);
           return (json.success)
         } catch {
           return false;
@@ -46,20 +47,19 @@ class PhotoHomeDetail extends React.Component {
       _favoris = async() => {
         const formData = new FormData();
         try{
-          var response = await fetch('https://api.imgur.com/3/image/K3Bt6jm/favorite', {
+          var response = await fetch(`https://api.imgur.com/3/image/${this.props.navigation.state.params.fav.id}/favorite`, {
             method:'POST',
             headers: {
-              "Authorization": 'Bearer ' + this.props.currentProfil.data.token,
-              'Accept': 'application/json',
+            Authorization: `Bearer  ${this.props.currentProfil.data.token}`,
+            // Accept: 'application/json',
             //   'Content-Type': 'application/json'
             //   "Accept": 'application/json'
             },
-            // body:formData
           })
 
-          // let json = await response.text();
-          // console.log(json);
-          // return (json.success)
+          let json = await response.json();
+          console.log(json);
+          return (json.success)
         }
         catch(error) {
             console.error(error);
@@ -75,7 +75,7 @@ class PhotoHomeDetail extends React.Component {
         const widthX = fav.width
         const heightX = fav.height
 
-        console.log(fav);
+        // console.log(fav.id);
         
             return(
                 <SafeAreaView style={styles.loginPage}>

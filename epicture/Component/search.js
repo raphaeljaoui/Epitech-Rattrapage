@@ -22,7 +22,8 @@ export default class Search extends React.Component {
             'Authorization': `Client-ID ${IMGUR_CLIENT_ID}`, 
             },
             }).then((response) => {
-                this.setState({searchImage: response.data});                
+                this.setState({searchImage: response.data});    
+                console.log(response.data);            
             }).catch((error) => {
                 console.log(error);
             });

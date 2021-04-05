@@ -64,7 +64,7 @@ class Home extends React.Component {
         } 
 
     render(){
-        console.log(this.props.currentProfil.data);
+        // console.log(this.props.currentProfil.data);
             return(
                 <SafeAreaView style={styles.loginPage}>
                      <View style={{flexDirection: "row", alignItems:"center"}}>
