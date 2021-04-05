@@ -37,7 +37,8 @@ class PhotoHomeDetail extends React.Component {
             body:formData
           });
           let json = await response.json();
-          // console.log(this.props.navigation.state.params.fav.id);
+          // console.log(json);
+          console.log(this.props.navigation.state.params.fav.id);
           return (json.success)
         } catch {
           return false;

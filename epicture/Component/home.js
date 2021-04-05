@@ -61,7 +61,7 @@ class Home extends React.Component {
 
     componentDidMount = () => {
         this._photoSearch()
-        } 
+    } 
 
     render(){
         // console.log(this.props.currentProfil.data);

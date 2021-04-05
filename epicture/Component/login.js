@@ -66,7 +66,7 @@ class Login extends React.Component {
     render(){
         if (this.state.login ==0){
             return (
-                <SafeAreaView style={{height: "80%", width:"100%", overflow:"hidden"}}>
+                <SafeAreaView style={{height: "80%", width:"100%", overflow:"hidden", alignItems:"center", justifyContent:"center"}}>
                 {/* <WebView
                 source = {{ uri: 'https://api.imgur.com/oauth2/authorize?client_id=b15555533adcf0c&response_type=token' }}      /> */}
                     {/* <Button title="login" onPress={() => { this.setState({login:1})}}/> */}
